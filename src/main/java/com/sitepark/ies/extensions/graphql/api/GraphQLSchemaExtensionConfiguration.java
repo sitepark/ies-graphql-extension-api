@@ -11,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.dataloader.BatchLoaderWithContext;
 import org.dataloader.DataLoader;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.kickstart.tools.SchemaParserBuilder;
 
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 public class GraphQLSchemaExtensionConfiguration {
 
 	private final SchemaParserBuilder schemaParserBuilder;
