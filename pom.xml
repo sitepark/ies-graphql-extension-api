@@ -215,7 +215,6 @@
 					<failurePriority>5</failurePriority>
 					<printFailingErrors>true</printFailingErrors>
 					<linkXRef>false</linkXRef>
-					<!-- erzeugt sonst eine Warnung -->
 				</configuration>
 			</plugin>
 		</plugins>
