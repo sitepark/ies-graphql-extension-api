@@ -1,0 +1,12 @@
+/target/
+
+# eclipse-files
+.project
+.settings/
+.checkstyle
+.classpath
+.pmd
+
+# maven
+pom.xml.versionsBackup
+
