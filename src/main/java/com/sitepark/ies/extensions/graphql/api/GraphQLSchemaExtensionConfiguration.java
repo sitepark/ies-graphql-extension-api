@@ -4,35 +4,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.dataloader.BatchLoaderWithContext;
 import org.dataloader.DataLoader;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.kickstart.tools.SchemaParserBuilder;
 
-@SuppressFBWarnings("EI_EXPOSE_REP")
 public class GraphQLSchemaExtensionConfiguration {
 
 	private final SchemaParserBuilder schemaParserBuilder;
 
-	private final Map<String, DataLoader<?, ?>> dataLoaders = new HashMap<>();
+	private final Map<String, DataLoader<?, ?>> dataLoaders = new ConcurrentHashMap<>();
 
-	private final Map<String, BatchLoaderWithContext<?, ?>> batchLoaders = new HashMap<>();
+	private final Map<String, BatchLoaderWithContext<?, ?>> batchLoaders = new ConcurrentHashMap<>();
 
 	public GraphQLSchemaExtensionConfiguration(SchemaParserBuilder schemaParserBuilder) {
 		this.schemaParserBuilder = schemaParserBuilder;
 	}
 
 	public Map<String, DataLoader<?, ?>> getDataLoaders() {
-		return this.dataLoaders;
+		return Collections.unmodifiableMap(this.dataLoaders);
 	}
 
 	public Map<String, BatchLoaderWithContext<?, ?>> getBatchLoaders() {
-		return this.batchLoaders;
+		return Collections.unmodifiableMap(this.batchLoaders);
 	}
 
 	public GraphQLSchemaExtensionConfiguration dictionary(String name, Class<?> clazz) {
