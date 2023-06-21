@@ -55,10 +55,10 @@ The schema should be stored as a resource in the same path as the package of the
 ```graphqls
 # Example object to show how to define a type
 type Example {
-  # Id of the example object
-  id: ID
-  # Name of the example object
-  name: String
+# Id of the example object
+id: ID
+# Name of the example object
+name: String
 }
 ```
 
@@ -70,8 +70,8 @@ The GraphQL extension provides the type `Query`. This can be extended to add cus
 ```graphqls
 # Query Root
 extend type Query {
-  # Returns all example objects
-  allExamples: [Example]
+# Returns all example objects
+allExamples: [Example]
 }
 ```
 
@@ -249,27 +249,27 @@ The graphql endpoint is https://example.domain.de/ies3/[client-anchor]/graphql
 The example query:
 ```graphql
 {
-  allExamples {
-    id
-    name
-  }
+allExamples {
+	id
+	name
+}
 }
 ```
 The response:
 ```json
 {
-  "data": {
-    "allExamples": [
-      {
-        "id": 1,
-        "name": "First"
-      },
-      {
-        "id": 2,
-        "name": "Second"
-      }
-    ]
-  }
+"data": {
+	"allExamples": [
+	{
+		"id": 1,
+		"name": "First"
+	},
+	{
+		"id": 2,
+		"name": "Second"
+	}
+	]
+}
 }
 ```
 
@@ -284,8 +284,8 @@ Suppose we want to extend our Example Type with the method `parentExample`.
 `schema.graphqls`
 ```graphqls
 extend type Example {
-  # Returns parent example
-  parentExample: Example
+# Returns parent example
+parentExample: Example
 }
 ```
 
@@ -363,8 +363,8 @@ Suppose we want to extend our Example Type with the method `childExamples`.
 `schema.graphqls`
 ```graphqls
 extend type Example {
-  # Returns child examples
-  childExamples: [Example]
+# Returns child examples
+childExamples: [Example]
 }
 ```
 
@@ -473,7 +473,7 @@ public class ExampleResolver implements GraphQLResolver<Example> {
 
 	@UserSecured
 	public CompletableFuture<Example> childExamples(Example example, DataFetchingEnvironment dfe)
-            throws InterruptedException, ExecutionException {
+			throws InterruptedException, ExecutionException {
 
 		final DataLoader<Integer, Example> exampleDataloader =
 				dfe.getDataLoaderRegistry().getDataLoader(ExampleGraphQLSchemaExtension.KEY);
@@ -530,7 +530,7 @@ Extend the schema
 ```graphqls
 # Mutation Root
 extend type Mutation {
-  createExample(example: Example): Example
+createExample(example: Example): Example
 }
 ```
 
@@ -637,7 +637,7 @@ Subscriptions are made via a WebSocket connection.
 The endpoint for subscriptions is therefore not the same as for queries and mutations.
 The graphql subscription endpoint is
 
-wss://example.domain.de/ies3/[client-anchor]/graphql/subscriptions
+wss://example.domain.de/[client-anchor]/api/graphql/subscriptions
 
 Here is an example of how to set up a subscription via JavaScript.
 
@@ -648,7 +648,7 @@ Here is an example of how to set up a subscription via JavaScript.
 	https://stackoverflow.com/questions/9056159/websocket-closing-connection-automatically
 */
 function setupWebSocket() {
-	var url = "wss://example.domain.de/ies3/[client-anchor]/graphql/subscriptions?ies-session=...";
+	var url = "wss://example.domain.de/[client-anchor]/api/graphql/subscriptions?ies-session=...";
 	var exampleSocket = new WebSocket(url);
 
 	exampleSocket.onopen = (event) => {
@@ -693,7 +693,7 @@ RewriteRule /(.*)           ws://${IES_IES_BALANCER_NAME}:8080/$1 [P,L]
 A `status` subscription is provided which can be used to test the websocket connection.
 
 ```js
-var url = "wss://example.domain.de/ies3/[client-anchor]/graphql/subscriptions?ies-session=...";
+var url = "wss://example.domain.de/[client-anchor]/api/graphql/subscriptions?ies-session=...";
 var exampleSocket = new WebSocket(url);
 
 exampleSocket.onopen = (event) => {
@@ -769,17 +769,17 @@ To create a new session for a user the mutation `signinUser` must be used, which
 
 ```graphql
 mutation signin {
-  signinUser(auth: {login: "peterpan", password: "mysecret", module: "test"}) {
-    session {
-      id
-      user {
-        id
-        name
-        login
-        type
-      }
-    }
-  }
+signinUser(auth: {login: "peterpan", password: "mysecret", module: "test"}) {
+	session {
+	id
+	user {
+		id
+		name
+		login
+		type
+	}
+	}
+}
 }
 ```
 
@@ -787,19 +787,19 @@ JSON is returned as the response:
 
 ```json
 {
-  "data": {
-    "signinUser": {
-      "session": {
-        "id": "8237653176368714756",
-        "user": {
-          "id": "100560100000001001",
-          "name": "Peter Pan (peterpan)",
-          "login": "peterpan",
-          "type": "USER"
-        }
-      }
-    }
-  }
+"data": {
+	"signinUser": {
+	"session": {
+		"id": "8237653176368714756",
+		"user": {
+		"id": "100560100000001001",
+		"name": "Peter Pan (peterpan)",
+		"login": "peterpan",
+		"type": "USER"
+		}
+	}
+	}
+}
 }
 ```
 
@@ -807,14 +807,14 @@ The [GraphQL IDE](https://github.com/graphql/graphiql) which comes with the IES 
 
 ```graphql
 mutation signin {
-  signinUser(...
+signinUser(...
 ```
 
 And not
 
 ```graphql
 mutation {
-  signinUser(...
+signinUser(...
 ```
 
 ## Extend types of other extensions
@@ -845,7 +845,7 @@ The class `GraphQLConfigurationCache` holds the configuration of all extensions 
 ## DataLoader support
 
 An important point is the support of the DataLoader. Here it is important that the `AsyncExecutionStrategy` is used witch is activated by default. See also [GraphQL Java
- / Data Loader only works with AsyncExecutionStrategy](https://www.graphql-java.com/documentation/batching#data-loader-only-works-with-asyncexecutionstrategy)
+/ Data Loader only works with AsyncExecutionStrategy](https://www.graphql-java.com/documentation/batching#data-loader-only-works-with-asyncexecutionstrategy)
 
 ## JSON Web Token support
 
