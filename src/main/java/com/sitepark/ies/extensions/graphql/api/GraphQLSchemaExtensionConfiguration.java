@@ -6,6 +6,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.dataloader.BatchLoaderWithContext;
@@ -37,45 +38,45 @@ public class GraphQLSchemaExtensionConfiguration {
 	}
 
 	public GraphQLSchemaExtensionConfiguration dictionary(String name, Class<?> clazz) {
-		assert name != null : "name is null";
-		assert clazz != null : "clazz is null";
+		Objects.requireNonNull(name, "name is null");
+		Objects.requireNonNull(clazz, "clazz is null");
 		this.schemaParserBuilder.dictionary(name, clazz);
 		return this;
 	}
 
 	public GraphQLSchemaExtensionConfiguration schemaString(String schemaString) {
-		assert schemaString != null : "schemaString is null";
+		Objects.requireNonNull(schemaString, "schemaString is null");
 		this.schemaParserBuilder.schemaString(schemaString);
 		return this;
 	}
 
 	public GraphQLSchemaExtensionConfiguration schemaResource(Class<?> cls, String name) {
-		assert cls != null : "cls is null";
-		assert name != null : "name is null";
+		Objects.requireNonNull(cls, "cls is null");
+		Objects.requireNonNull(name, "name is null");
 		String schemaString = this.readResource(cls, name);
 		this.schemaString(schemaString);
 		return this;
 	}
 
 	public GraphQLSchemaExtensionConfiguration resolvers(GraphQLResolver<?>... resolvers) {
-		assert resolvers != null : "resolver array is null";
+		Objects.requireNonNull(resolvers, "resolvers is null");
 		for (GraphQLResolver<?> resolver : resolvers) {
-			assert resolver != null : "resolver is null";
+			Objects.requireNonNull(resolver, "resolver in resolvers is null");
 		}
 		this.schemaParserBuilder.resolvers(resolvers);
 		return this;
 	}
 
 	public GraphQLSchemaExtensionConfiguration dataLoader(String key, DataLoader<?, ?> dataLoader) {
-		assert key != null : "key is null";
-		assert dataLoader != null : "dataLoader is null";
+		Objects.requireNonNull(key, "key is null");
+		Objects.requireNonNull(dataLoader, "dataLoader is null");
 		this.dataLoaders.put(key, dataLoader);
 		return this;
 	}
 
 	public GraphQLSchemaExtensionConfiguration batchLoader(String key, BatchLoaderWithContext<?, ?> batchLoader) {
-		assert key != null : "key is null";
-		assert batchLoader != null : "batchLoader is null";
+		Objects.requireNonNull(key, "key is null");
+		Objects.requireNonNull(batchLoader, "batchLoader is null");
 		this.batchLoaders.put(key, batchLoader);
 		return this;
 	}
