@@ -1,3 +1,6 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/sitepark/ies-4-graphql-extension-api/badge.svg)](https://snyk.io/test/github/sitepark/ies-4-graphql-extension-api)
+
+
 GraphQL is a query language for API. Sie [here](https://graphql.org/) for details.
 
 This extension provides an endpoint over which the requests are made. The extension is intended to be extended by other extensions.
