@@ -22,7 +22,7 @@ class GraphQLSchemaExtensionConfigurationTest {
   @BeforeEach
   void setup() {
     this.schemaBuilder = mock(SchemaParserBuilder.class);
-    this.config = new GraphQLSchemaExtensionConfiguration(schemaBuilder);
+    this.config = new GraphQLSchemaExtensionConfiguration(this.schemaBuilder);
   }
 
   @Test
