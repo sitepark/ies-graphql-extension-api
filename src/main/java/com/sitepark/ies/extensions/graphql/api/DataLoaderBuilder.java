@@ -4,5 +4,5 @@ import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderOptions;
 
 public interface DataLoaderBuilder {
-	DataLoader<?, ?> buildDataLoader(DataLoaderOptions options);
+  DataLoader<?, ?> buildDataLoader(DataLoaderOptions options);
 }
