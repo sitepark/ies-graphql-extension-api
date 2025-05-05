@@ -87,7 +87,7 @@ public class GraphQLSchemaExtensionConfiguration {
   private String readResource(Class<?> cls, String name) {
     try (InputStream in = cls.getResourceAsStream(name); ) {
       if (in == null) {
-        throw new IOException("resource " + name + " not found");
+        throw new UncheckedIOException(new IOException("resource " + name + " not found"));
       }
       return new String(in.readAllBytes(), StandardCharsets.UTF_8);
     } catch (IOException e) {
