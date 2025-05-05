@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.kickstart.tools.SchemaParserBuilder;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -91,8 +90,10 @@ class GraphQLSchemaExtensionConfigurationTest {
     when(resourceLoader.getResourceAsStream(any(), any())).thenReturn(inputStream);
     when(inputStream.readAllBytes()).thenThrow(new IOException("test"));
 
-    GraphQLSchemaExtensionConfiguration config = new GraphQLSchemaExtensionConfiguration(this.schemaBuilder, resourceLoader);
+    GraphQLSchemaExtensionConfiguration config =
+        new GraphQLSchemaExtensionConfiguration(this.schemaBuilder, resourceLoader);
 
-    assertThrows(UncheckedIOException.class, () -> config.schemaResource(this.getClass(), "/invalid.txt"));
+    assertThrows(
+        UncheckedIOException.class, () -> config.schemaResource(this.getClass(), "/invalid.txt"));
   }
 }

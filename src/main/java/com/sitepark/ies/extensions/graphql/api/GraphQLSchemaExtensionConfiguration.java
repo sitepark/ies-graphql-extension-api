@@ -29,7 +29,8 @@ public class GraphQLSchemaExtensionConfiguration {
     this(schemaParserBuilder, new ResourceLoader());
   }
 
-  public GraphQLSchemaExtensionConfiguration(SchemaParserBuilder schemaParserBuilder, ResourceLoader resourceLoader) {
+  public GraphQLSchemaExtensionConfiguration(
+      SchemaParserBuilder schemaParserBuilder, ResourceLoader resourceLoader) {
     this.schemaParserBuilder = schemaParserBuilder;
     this.resourceLoader = resourceLoader;
   }
