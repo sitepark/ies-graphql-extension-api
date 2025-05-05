@@ -2,11 +2,12 @@ package com.sitepark.ies.extensions.graphql.api;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.kickstart.tools.SchemaParserBuilder;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import org.dataloader.BatchLoaderWithContext;
 import org.dataloader.DataLoader;
@@ -79,5 +80,21 @@ class GraphQLSchemaExtensionConfigurationTest {
     this.config.batchLoader("test", batchLoader);
 
     assertNotNull(this.config.getBatchLoaders().get("test"), "dataLoder not found");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.CloseResource")
+  void testReadResourceThrowsIOException() throws IOException {
+
+    ResourceLoader resourceLoader = mock(ResourceLoader.class);
+    InputStream inputStream = mock(InputStream.class);
+    when(resourceLoader.getResourceAsStream(any(), any())).thenReturn(inputStream);
+    when(inputStream.readAllBytes()).thenThrow(new IOException("test"));
+
+    GraphQLSchemaExtensionConfiguration config =
+        new GraphQLSchemaExtensionConfiguration(this.schemaBuilder, resourceLoader);
+
+    assertThrows(
+        UncheckedIOException.class, () -> config.schemaResource(this.getClass(), "/invalid.txt"));
   }
 }
