@@ -83,6 +83,7 @@ class GraphQLSchemaExtensionConfigurationTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.CloseResource")
   void testReadResourceThrowsIOException() throws IOException {
 
     ResourceLoader resourceLoader = mock(ResourceLoader.class);
