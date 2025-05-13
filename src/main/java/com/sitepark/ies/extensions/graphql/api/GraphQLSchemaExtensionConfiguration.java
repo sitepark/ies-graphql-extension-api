@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.dataloader.BatchLoaderWithContext;
 import org.dataloader.DataLoader;
 
-@SuppressFBWarnings(value = {"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
+@SuppressFBWarnings(value = {"EI_EXPOSE_REP"})
 public class GraphQLSchemaExtensionConfiguration {
 
   private final SchemaParserBuilder schemaParserBuilder;
