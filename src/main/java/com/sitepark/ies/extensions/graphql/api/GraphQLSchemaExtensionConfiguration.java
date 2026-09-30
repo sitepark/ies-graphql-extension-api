@@ -1,6 +1,5 @@
 package com.sitepark.ies.extensions.graphql.api;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import graphql.kickstart.tools.GraphQLResolver;
 import graphql.kickstart.tools.SchemaParserBuilder;
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.dataloader.BatchLoaderWithContext;
 import org.dataloader.DataLoader;
 
-@SuppressFBWarnings(value = {"EI_EXPOSE_REP"})
 public class GraphQLSchemaExtensionConfiguration {
 
   private final SchemaParserBuilder schemaParserBuilder;
