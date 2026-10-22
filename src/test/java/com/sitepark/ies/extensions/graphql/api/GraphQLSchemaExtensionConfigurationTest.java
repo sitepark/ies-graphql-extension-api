@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import org.dataloader.BatchLoaderWithContext;
-import org.dataloader.DataLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,11 +26,6 @@ class GraphQLSchemaExtensionConfigurationTest {
   void setup() {
     this.schemaBuilder = mock(SchemaParserBuilder.class);
     this.config = new GraphQLSchemaExtensionConfiguration(this.schemaBuilder);
-  }
-
-  @Test
-  void testGetSchemaBuilder() {
-    assertNotNull(this.config.getSchemaParserBuilder(), "schema-builder expected");
   }
 
   @Test
@@ -67,14 +61,6 @@ class GraphQLSchemaExtensionConfigurationTest {
     GraphQLResolver<?> resolver = mock(GraphQLResolver.class);
     this.config.resolvers(resolver);
     verify(this.schemaBuilder).resolvers(resolver);
-  }
-
-  @Test
-  void testDataLoader() {
-    DataLoader<?, ?> dataLoader = mock(DataLoader.class);
-    this.config.dataLoader("test", dataLoader);
-
-    assertNotNull(this.config.getDataLoaders().get("test"), "dataLoder not found");
   }
 
   @Test

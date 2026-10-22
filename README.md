@@ -17,7 +17,7 @@ Dependency to use the API.
 <dependency>
 	<groupId>com.sitepark.ies.extensions</groupId>
 	<artifactId>ies-graphql-extension-api</artifactId>
-	<version>1.0</version>
+	<version>2.0.0</version>
 	<scope>provided</scope>
 </dependency>
 ```
@@ -46,7 +46,18 @@ public class ExampleGraphQLSchemaExtension implements GraphQLSchemaExtension {
 
 The GraphQL extension automatically searches for all implementations of this interface and registers them independently.
 
-The GraphQL Extension uses [GraphQL Java](https://www.graphql-java.com/) and [GraphQL Java Tools](https://www.graphql-java-kickstart.com/tools/) to provide the GraphQL endpoint.
+The GraphQL schema is built with [GraphQL Java Tools](https://www.graphql-java-kickstart.com/tools/) and executed by [Spring for GraphQL](https://spring.io/projects/spring-graphql) on [GraphQL Java](https://www.graphql-java.com/) 25.
+
+## Migrating from 1.x
+
+Version 2.0 is the API of IES 4, where Spring for GraphQL serves the GraphQL endpoint.
+
+- GraphQL Java 25 and java-dataloader 6 are required.
+- `getSchemaParserBuilder()` has been removed: an extension contributes through the methods of
+  `GraphQLSchemaExtensionConfiguration` only.
+- `dataLoader(String, DataLoader)` and `getDataLoaders()` have been removed: a data loader must be created for
+  every request. Register its batch function with `batchLoader(String, BatchLoaderWithContext)`; a batch loader
+  that implements `DataLoaderBuilder` creates its data loader itself.
 
 ## Defining a schema
 
@@ -837,7 +848,18 @@ For this it is necessary to use the extension to be extended as a dependency. Fo
 
 # Implementation details
 
-The GraphQL Extension uses [GraphQL Java](https://www.graphql-java.com/) and [GraphQL Java Tools](https://www.graphql-java-kickstart.com/tools/) to provide the GraphQL endpoint.
+The GraphQL schema is built with [GraphQL Java Tools](https://www.graphql-java-kickstart.com/tools/) and executed by [Spring for GraphQL](https://spring.io/projects/spring-graphql) on [GraphQL Java](https://www.graphql-java.com/) 25.
+
+## Migrating from 1.x
+
+Version 2.0 is the API of IES 4, where Spring for GraphQL serves the GraphQL endpoint.
+
+- GraphQL Java 25 and java-dataloader 6 are required.
+- `getSchemaParserBuilder()` has been removed: an extension contributes through the methods of
+  `GraphQLSchemaExtensionConfiguration` only.
+- `dataLoader(String, DataLoader)` and `getDataLoaders()` have been removed: a data loader must be created for
+  every request. Register its batch function with `batchLoader(String, BatchLoaderWithContext)`; a batch loader
+  that implements `DataLoaderBuilder` creates its data loader itself.
 
 ## GraphQL Servlet
 
