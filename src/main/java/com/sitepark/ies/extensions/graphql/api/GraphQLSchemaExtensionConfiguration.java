@@ -11,13 +11,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import org.dataloader.BatchLoaderWithContext;
-import org.dataloader.DataLoader;
 
+/**
+ * What an extension contributes to the GraphQL schema of the IES: schema files, resolvers, the
+ * classes of union and interface types, and batch loaders.
+ *
+ * <p>The schema is built with GraphQL Java Tools and executed by Spring for GraphQL whenever the
+ * extensions are loaded. A batch loader is the batch function of a data loader that the IES
+ * creates for every request; if it implements {@link DataLoaderBuilder}, it creates the data loader
+ * itself, e.g. with its own cache.
+ */
 public class GraphQLSchemaExtensionConfiguration {
 
   private final SchemaParserBuilder schemaParserBuilder;
-
-  private final Map<String, DataLoader<?, ?>> dataLoaders = new ConcurrentHashMap<>();
 
   private final Map<String, BatchLoaderWithContext<?, ?>> batchLoaders = new ConcurrentHashMap<>();
 
@@ -31,10 +37,6 @@ public class GraphQLSchemaExtensionConfiguration {
       SchemaParserBuilder schemaParserBuilder, ResourceLoader resourceLoader) {
     this.schemaParserBuilder = schemaParserBuilder;
     this.resourceLoader = resourceLoader;
-  }
-
-  public Map<String, DataLoader<?, ?>> getDataLoaders() {
-    return Collections.unmodifiableMap(this.dataLoaders);
   }
 
   public Map<String, BatchLoaderWithContext<?, ?>> getBatchLoaders() {
@@ -71,23 +73,16 @@ public class GraphQLSchemaExtensionConfiguration {
     return this;
   }
 
-  public GraphQLSchemaExtensionConfiguration dataLoader(String key, DataLoader<?, ?> dataLoader) {
-    Objects.requireNonNull(key, "key is null");
-    Objects.requireNonNull(dataLoader, "dataLoader is null");
-    this.dataLoaders.put(key, dataLoader);
-    return this;
-  }
-
+  /**
+   * Registers the batch function of a data loader, available per request under the key ({@code
+   * environment.getDataLoader(key)}).
+   */
   public GraphQLSchemaExtensionConfiguration batchLoader(
       String key, BatchLoaderWithContext<?, ?> batchLoader) {
     Objects.requireNonNull(key, "key is null");
     Objects.requireNonNull(batchLoader, "batchLoader is null");
     this.batchLoaders.put(key, batchLoader);
     return this;
-  }
-
-  public SchemaParserBuilder getSchemaParserBuilder() {
-    return this.schemaParserBuilder;
   }
 
   private String readResource(Class<?> cls, String name) {
