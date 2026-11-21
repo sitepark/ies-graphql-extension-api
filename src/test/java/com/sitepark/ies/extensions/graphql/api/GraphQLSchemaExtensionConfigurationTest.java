@@ -1,66 +1,62 @@
 package com.sitepark.ies.extensions.graphql.api;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import graphql.kickstart.tools.GraphQLResolver;
-import graphql.kickstart.tools.SchemaParserBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import org.dataloader.BatchLoaderWithContext;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GraphQLSchemaExtensionConfigurationTest {
 
-  private SchemaParserBuilder schemaBuilder;
-
-  private GraphQLSchemaExtensionConfiguration config;
-
-  @BeforeEach
-  void setup() {
-    this.schemaBuilder = mock(SchemaParserBuilder.class);
-    this.config = new GraphQLSchemaExtensionConfiguration(this.schemaBuilder);
-  }
+  private final GraphQLSchemaExtensionConfiguration config =
+      new GraphQLSchemaExtensionConfiguration();
 
   @Test
   void testDictionary() {
     this.config.dictionary("test", Object.class);
-    verify(this.schemaBuilder).dictionary("test", Object.class);
+    assertThat(this.config.getDictionary())
+        .as("the class should be registered for the type")
+        .containsEntry("test", Object.class);
   }
 
   @Test
   void testSchemaString() {
     this.config.schemaString("test");
-    verify(this.schemaBuilder).schemaString("test");
+    assertThat(this.config.getSchemas()).as("the schema should be added").containsExactly("test");
   }
 
   @Test
   void testSchemaResource() {
     this.config.schemaResource(
         GraphQLSchemaExtensionConfigurationTest.class, "/testSchemaResource.txt");
-    verify(this.schemaBuilder).schemaString("loaded");
+    assertThat(this.config.getSchemas())
+        .as("the content of the resource should be added")
+        .containsExactly("loaded");
   }
 
   @Test
   void testInvalidSchemaResource() {
     assertThrows(
         UncheckedIOException.class,
-        () -> {
-          this.config.schemaResource(GraphQLSchemaExtensionConfigurationTest.class, "/invalid.txt");
-        });
+        () ->
+            this.config.schemaResource(
+                GraphQLSchemaExtensionConfigurationTest.class, "/invalid.txt"));
   }
 
   @Test
-  void testResolvers() {
-    GraphQLResolver<?> resolver = mock(GraphQLResolver.class);
-    this.config.resolvers(resolver);
-    verify(this.schemaBuilder).resolvers(resolver);
+  void testControllers() {
+    Object first = new Object();
+    Object second = new Object();
+    this.config.controllers(first).controllers(second);
+    assertThat(this.config.getControllers())
+        .as("the controllers should be kept in their order")
+        .containsExactly(first, second);
   }
 
   @Test
@@ -68,7 +64,9 @@ class GraphQLSchemaExtensionConfigurationTest {
     BatchLoaderWithContext<?, ?> batchLoader = mock(BatchLoaderWithContext.class);
     this.config.batchLoader("test", batchLoader);
 
-    assertNotNull(this.config.getBatchLoaders().get("test"), "dataLoder not found");
+    assertThat(this.config.getBatchLoaders())
+        .as("the batch loader should be registered by its key")
+        .containsEntry("test", batchLoader);
   }
 
   @Test
@@ -80,7 +78,7 @@ class GraphQLSchemaExtensionConfigurationTest {
     when(inputStream.readAllBytes()).thenThrow(new IOException("test"));
 
     GraphQLSchemaExtensionConfiguration config =
-        new GraphQLSchemaExtensionConfiguration(this.schemaBuilder, resourceLoader);
+        new GraphQLSchemaExtensionConfiguration(resourceLoader);
 
     assertThrows(
         UncheckedIOException.class, () -> config.schemaResource(this.getClass(), "/invalid.txt"));

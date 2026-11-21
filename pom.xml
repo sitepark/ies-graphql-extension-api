@@ -79,12 +79,6 @@
 			<version>1.0.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.graphql-java-kickstart</groupId>
-			<artifactId>graphql-java-tools</artifactId>
-			<version>14.0.1</version>
-		</dependency>
-
 		<!-- the versions of Spring for GraphQL in the IES; the API exposes their types -->
 		<dependency>
 			<groupId>com.graphql-java</groupId>
